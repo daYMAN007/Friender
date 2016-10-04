@@ -40,32 +40,31 @@
     </style>
 
   </head>
-  <body animation="slide-left-right-ios7">
+  <body ng-app="app" animation="slide-left-right-ios7">
   <div>
     <div>
         <ion-nav-bar class="bar-stable">
             <ion-nav-back-button></ion-nav-back-button>
         </ion-nav-bar>
         <ion-nav-view>
-          <ion-view title="Login" id="page1">
-              <ion-content padding="true" class="has-header">
-                  <form id="login-form3" class="list">
-                      <label class="item item-input" id="login-input7">
-                          <span class="input-label">Nickname</span>
-                          <input type="text" placeholder="Nickname">
-                      </label>
-                      <label class="item item-input" id="login-input8">
-                          <span class="input-label">Passwort</span>
-                          <input type="text" placeholder="Passwort">
-                      </label>
-                  </form>
-                  <button id="login-button3" class="button button-positive  button-block">Login</button>
-                  <button id="login-button5" class="button button-positive  button-block">Regristrieren</button>
-              </ion-content>
-          </ion-view>
-
         </ion-nav-view>
     </div>
 </div>
+<ion-view title="Login" id="page2">
+    <ion-content padding="true" class="has-header">
+        <form id="login-form3" class="list">
+            <label class="item item-input" id="login-input7">
+                <span class="input-label">Nickname</span>
+                <input type="text" placeholder="Nickname">
+            </label>
+            <label class="item item-input" id="login-input8">
+                <span class="input-label">Passwort</span>
+                <input type="password" placeholder="Passwort">
+            </label>
+        </form>
+        <button id="login-button3" class="button button-positive  button-block">Login</button>
+        <button id="login-button5" class="button button-positive  button-block">Registrieren</button>
+    </ion-content>
+</ion-view>
   </body>
 </html>
