@@ -16,21 +16,29 @@ function ($scope, $stateParams) {
 
 }])
 
-.controller('loginCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('loginCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams,  $http) {
   $scope.Login = function (){
     var BenutzernameLocal = "nick";
     var PasswortLocal = "geheim";
 
-    if(BenutzernameLocal != $scope.Benutzername || PasswortLocal != $scope.Passwort)
-    {
-      alert("Falsche Daten");
-    }else{
-      alert("Login Korrekt");
-    }
 
+
+              var  formData= {  'action' : 'Login','Benutzername': $scope.Benutzername,'BenPasswort' : $scope.Passwort }
+              var postData = 'myData='+JSON.stringify(formData);
+              $http({
+                      method : 'POST',
+                      url : 'http://localhost/FrienderServer/api.php',
+                      data: postData,
+                      headers : {'Content-Type': 'application/x-www-form-urlencoded'}
+
+              }).success(function(res){
+                      console.log(res);
+              }).error(function(error){
+                      console.log(error);
+      });
   }
 
 }])
@@ -39,11 +47,7 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
-  $scope.Registrieren = function (){
-    alert("Registrierung erfolgreich");
 
-
-  }
 
 }])
 
