@@ -21,7 +21,16 @@ function ($scope, $stateParams) {
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
   $scope.Login = function (){
-    
+    var BenutzernameLocal = "nick";
+    var PasswortLocal = "geheim";
+
+    if(BenutzernameLocal != $scope.Benutzername || PasswortLocal != $scope.Passwort)
+    {
+      alert("Falsche Daten");
+    }else{
+      alert("Login Korrekt");
+    }
+
   }
 
 }])
