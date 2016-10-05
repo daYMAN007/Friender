@@ -7,19 +7,27 @@ angular.module('app.routes', [])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-    
-  
 
-      .state('menu.konktakt', {
+
+
+      .state('menu.ich', {
     url: '/page1',
     views: {
       'side-menu21': {
-        templateUrl: 'templates/konktakt.html',
-        controller: 'konktaktCtrl'
+        templateUrl: 'templates/ich.html',
+        controller: 'ichCtrl'
       }
     }
   })
-
+  .state('menu.kontakt', {
+url: '/page1',
+views: {
+  'side-menu21': {
+    templateUrl: 'templates/kontakt.html',
+    controller: 'konktaktCtrl'
+  }
+}
+})
   .state('ich', {
     url: '/page5',
     templateUrl: 'templates/ich.html',
@@ -52,6 +60,6 @@ angular.module('app.routes', [])
 
 $urlRouterProvider.otherwise('/page2')
 
-  
+
 
 });

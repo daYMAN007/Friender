@@ -18,11 +18,13 @@ angular.module('app.controllers', [])
   }
 ])
 
-.controller('loginCtrl', ['$scope', '$stateParams', '$http', '$location','$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('loginCtrl', ['$scope', '$stateParams', '$http', '$location','$ionicPopup','$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $http, $location,$ionicPopup) {
+  function($scope, $stateParams, $http, $location,$ionicPopup,$state) {
     $scope.Login = function() {
+    $state.go('menu.kontakt');
+
       if (!empty( $scope.Benutzername)&&!empty($scope.Passwort)) { //überprüfe ob alle Felder ausgefühlt sind
 
         var formData = {
@@ -45,7 +47,6 @@ angular.module('app.controllers', [])
           //error messages : 0 user existiert nicht
           //                 1 Login erfolgreich
           //                 2 Passwort falsch
-
           switch (res) {
             case "0": //user existiert nicht
               var alertPopup = $ionicPopup.alert({
