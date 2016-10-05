@@ -96,11 +96,14 @@ angular.module('app.controllers', [])
       if (!empty($scope.Benutzername)&&!empty($scope.Vorname)&&!empty($scope.Nachname)&&!empty($scope.Telefonnummer)&&!empty($scope.Passwort)&&!empty($scope.PasswortWiederholung)) { //überprüfe ob alle Felder ausgefühlt sind
         if($scope.Passwort===$scope.PasswortWiederholung)
         {
+
         var formData = {
-          'action': 'Login',
+          'action': 'Registrieren',
           'Benutzername': $scope.Benutzername,
           'BenPasswort': $scope.Passwort,
-
+          'BenTelefonnummer' : $scope.Telefonnummer,
+          'BenVorname'  : $scope.Vorname,
+          'BenNachname' : $scope.Nachname,
         }
         var postData = 'myData=' + JSON.stringify(formData);
         console.log(postData);
@@ -114,27 +117,23 @@ angular.module('app.controllers', [])
 
         }).success(function(res) {
           console.log(res);
-          //error messages : 0 user existiert nicht
-          //                 1 Login erfolgreich
-          //                 2 Passwort falsch
+          //error messages : 0 Benutzer erfolgreich erstellt
+          //                 1 Fehler bei der Übertragung
 
           switch (res) {
-            case "0": //user existiert nicht
+            case "0": //Benutzer erfolgreich erstellt
               var alertPopup = $ionicPopup.alert({
-                title: 'Fehler',
-                template: 'Dieser Nutzername existiert nicht!'
+                title: 'Erstellt',
+                template: 'Der Nutzer wurde erstellt!'
+                //todo: weiterleitung zur ich page
+
               });
-
-
               break;
-            case "1": // Login erfolgreich
-              //weiterleitung zur ich page
-
-              break;
-            case "2": // Passwort falsch
+            case "1": // Fehler bei der Übertragung
             var alertPopup = $ionicPopup.alert({
               title: 'Fehler',
-              template: 'Das eingegeben Passwort ist Falsch!'
+              template: 'Die Übermittelten Daten sind fehlerhaft!'
+
             });
               break;
             default: //server error
@@ -148,6 +147,12 @@ angular.module('app.controllers', [])
             title: 'Fehler',
             template: 'Der Server ist nicht erreichbar!'
           });
+        });
+      }
+      else{ //ungleiche Passwörter
+        var alertPopup = $ionicPopup.alert({
+          title: 'Fehler',
+          template: 'Die Passwörter stimmen nicht überein!'
         });
       }
 }
