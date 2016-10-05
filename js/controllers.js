@@ -9,15 +9,16 @@ angular.module('app.controllers', [])
   }
 ])
 
-.controller('ichCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('ichCtrl', ['$scope', '$stateParams','$cordovaGeolocation', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function($scope, $stateParams, $cordovaGeolocation) {
   var options = {timeout: 10000, enableHighAccuracy: true};
 
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-
-    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+//47.567109, 9.362960
+//  var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude); todo: put real shit in again
+    var latLng = new google.maps.LatLng(47.567109,9.362960);
 
     var mapOptions = {
       center: latLng,
@@ -27,9 +28,9 @@ angular.module('app.controllers', [])
 
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-  // }, function(error){
-  //   console.log("Could not get location");
-  // });
+   }, function(error){
+     console.log("Could not get location");
+   });
   }
 ])
 
