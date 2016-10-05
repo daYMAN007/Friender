@@ -12,9 +12,24 @@ angular.module('app.controllers', [])
 .controller('ichCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams) {
+  function($scope, $stateParams, $cordovaGeolocation) {
+  var options = {timeout: 10000, enableHighAccuracy: true};
 
+  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
 
+    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+    var mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+  // }, function(error){
+  //   console.log("Could not get location");
+  // });
   }
 ])
 
@@ -23,7 +38,7 @@ angular.module('app.controllers', [])
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function($scope, $stateParams, $http, $location, $ionicPopup, $state) {
     $scope.Login = function() {
-      $state.go('menu.kontakt');
+      $state.go('menu.ich');
 
       if (!empty($scope.Benutzername) && !empty($scope.Passwort)) { //überprüfe ob alle Felder ausgefühlt sind
 
@@ -58,6 +73,7 @@ angular.module('app.controllers', [])
               break;
             case "1": // Login erfolgreich
               //weiterleitung zur ich page
+              //      $state.go('menu.ich');
 
               break;
             case "2": // Passwort falsch
@@ -125,9 +141,11 @@ angular.module('app.controllers', [])
                 var alertPopup = $ionicPopup.alert({
                   title: 'Erstellt',
                   template: 'Der Nutzer wurde erstellt!'
-                    //todo: weiterleitung zur ich page
+
 
                 });
+                //weiterleitung zur ich page
+                $state.go('menu.ich');
                 break;
               case "1": // Fehler bei der Übertragung
                 var alertPopup = $ionicPopup.alert({
@@ -171,7 +189,7 @@ angular.module('app.controllers', [])
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function($scope, $stateParams) {
     $scope.KontakteAuslesen = function() {
-      
+
     }
 
   }

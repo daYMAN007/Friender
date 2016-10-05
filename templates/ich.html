@@ -1,14 +1,9 @@
 <ion-view title="Ich" id="page5">
+  <script src="http://maps.google.com/maps/api/js?key=AIzaSyC-0uzItSQu1z7ZldPL390nbxwvSipE7NI&sensor=true"></script>
   <body ng-app="app" animation="slide-left-right-ios7">
     <ion-content padding="true" class="has-header">
-        <div>
-            <img src="../img/kedCsKlS7q2fHBQeS0XA_MAP.PNG" width="100%" height="200%" style="display: block; margin-left: auto; margin-right: auto;">
-        </div>
-        <form id="ich-form9" class="list">
-            <label class="item item-input" id="ich-textarea4">
-                <span class="input-label">GPS Position gefunden!</span><textarea placeholder=""></textarea>
-            </label>
-        </form>
+        <div id="map" data-tab-disabled="true"> </div>
+                <p>GPS Position gefunden!</p>
     </ion-content>
   </body>
 </ion-view>
