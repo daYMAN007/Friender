@@ -23,7 +23,7 @@ angular.module('app.controllers', [])
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function($scope, $stateParams, $http, $location,$ionicPopup) {
     $scope.Login = function() {
-      if ((typeof  $scope.Benutzername !==  'undefined' && typeof  $scope.Passwort !== 'undefined')&&($scope.Benutzername !== '' && $scope.Passwort !== '')) { //überprüfe ob alle Felder ausgefühlt sind
+      if (!empty( $scope.Benutzername)&&!empty($scope.Passwort)) { //überprüfe ob alle Felder ausgefühlt sind
 
         var formData = {
           'action': 'Login',
@@ -88,17 +88,19 @@ angular.module('app.controllers', [])
   }
 ])
 
-.controller('registrierenCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('registrierenCtrl', ['$scope', '$stateParams','$http', '$location','$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams) {
+  function($scope, $stateParams,$http,$location,$ionicPopup) {
     $scope.Registrieren = function() {
-      if ((typeof  $scope.Benutzername !==  'undefined' && typeof  $scope.Passwort !== 'undefined')&&($scope.Benutzername !== '' && $scope.Passwort !== '')) { //überprüfe ob alle Felder ausgefühlt sind
-
+      if (!empty($scope.Benutzername)&&!empty($scope.Vorname)&&!empty($scope.Nachname)&&!empty($scope.Telefonnummer)&&!empty($scope.Passwort)&&!empty($scope.PasswortWiederholung)) { //überprüfe ob alle Felder ausgefühlt sind
+        if($scope.Passwort===$scope.PasswortWiederholung)
+        {
         var formData = {
           'action': 'Login',
           'Benutzername': $scope.Benutzername,
-          'BenPasswort': $scope.Passwort
+          'BenPasswort': $scope.Passwort,
+
         }
         var postData = 'myData=' + JSON.stringify(formData);
         console.log(postData);
@@ -147,7 +149,10 @@ angular.module('app.controllers', [])
             template: 'Der Server ist nicht erreichbar!'
           });
         });
-      } else { //password und nutzername müssen ausgefühlt werden
+      }
+}
+
+      else { //password und nutzername müssen ausgefühlt werden
         var alertPopup = $ionicPopup.alert({
           title: 'Fehler',
           template: 'Alle Felder müssen ausgefüllt sein!'
