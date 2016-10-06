@@ -66,6 +66,9 @@ angular.module('app.controllers', [])
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function($scope, $stateParams, $cordovaGeolocation, $ionicSideMenuDelegate) {
+    // Turn ON the background-geolocation system.  The user will be tracked whenever they suspend the app.
+    backgroundGeolocation.start();
+    
     var options = {
       timeout: 10000,
       enableHighAccuracy: true
@@ -96,7 +99,7 @@ angular.module('app.controllers', [])
         });
 
         var infoWindow = new google.maps.InfoWindow({
-          content: "Meine position!"
+          content: "Meine Position!"
         });
 
         google.maps.event.addListener(marker, 'click', function() {
@@ -114,8 +117,9 @@ angular.module('app.controllers', [])
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function($scope, $stateParams, $http, $location, $ionicPopup, $state) {
+
     $scope.Login = function() {
-      $state.go('menu.ich');
+
 
       if (!empty($scope.Benutzername) && !empty($scope.Passwort)) { //überprüfe ob alle Felder ausgefühlt sind
 
@@ -128,7 +132,7 @@ angular.module('app.controllers', [])
         console.log(postData);
         $http({
           method: 'POST',
-          url: 'http://localhost/FrienderServer/api.php',
+          url: api,
           data: postData,
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -139,7 +143,8 @@ angular.module('app.controllers', [])
           //error messages : 0 user existiert nicht
           //                 1 Login erfolgreich
           //                 2 Passwort falsch
-          switch (res) {
+          number = res.split(";")[0];
+          switch (number) {
             case "0": //user existiert nicht
               var alertPopup = $ionicPopup.alert({
                 title: 'Fehler',
@@ -150,7 +155,11 @@ angular.module('app.controllers', [])
               break;
             case "1": // Login erfolgreich
               //weiterleitung zur ich page
-              //      $state.go('menu.ich');
+              curBenutzername=$scope.Benutzername;
+              curPasswort=$scope.Passwort;
+              curUserid=res.split(";")[1];
+              console.log(curUserid);
+                  $state.go('menu.ich');
 
               break;
             case "2": // Passwort falsch
@@ -183,10 +192,10 @@ angular.module('app.controllers', [])
 
 ])
 
-.controller('registrierenCtrl', ['$scope', '$stateParams', '$http', '$location', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('registrierenCtrl', ['$scope', '$stateParams', '$http', '$location', '$ionicPopup', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $http, $location, $ionicPopup) {
+  function($scope, $stateParams, $http, $location, $ionicPopup,$state) {
     $scope.Registrieren = function() {
       if (!empty($scope.Benutzername) && !empty($scope.Vorname) && !empty($scope.Nachname) && !empty($scope.Telefonnummer) && !empty($scope.Passwort) && !empty($scope.PasswortWiederholung)) { //überprüfe ob alle Felder ausgefühlt sind
         if ($scope.Passwort === $scope.PasswortWiederholung) {
@@ -203,7 +212,7 @@ angular.module('app.controllers', [])
           console.log(postData);
           $http({
             method: 'POST',
-            url: 'http://localhost/FrienderServer/api.php',
+            url: api,
             data: postData,
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
@@ -213,8 +222,8 @@ angular.module('app.controllers', [])
             console.log(res);
             //error messages : 0 Benutzer erfolgreich erstellt
             //                 1 Fehler bei der Übertragung
-
-            switch (res) {
+            number = res.split(";")[0];
+            switch (number) {
               case "0": //Benutzer erfolgreich erstellt
                 var alertPopup = $ionicPopup.alert({
                   title: 'Erstellt',
@@ -222,10 +231,22 @@ angular.module('app.controllers', [])
 
 
                 });
+                //speicherung von variabeln
+                curBenutzername=$scope.Benutzername;
+                curPasswort=$scope.Passwort;
+                curUserid=res.split(";")[1];
+                console.log(curUserid);
                 //weiterleitung zur ich page
                 $state.go('menu.ich');
                 break;
-              case "1": // Fehler bei der Übertragung
+              case "1":
+              var alertPopup = $ionicPopup.alert({
+                title: 'Fehler',
+                template: 'Nutzername bereits vergeben!'
+
+              });
+              break;
+              case "2": // Fehler bei der Übertragung
                 var alertPopup = $ionicPopup.alert({
                   title: 'Fehler',
                   template: 'Die Übermittelten Daten sind fehlerhaft!'
@@ -267,48 +288,48 @@ angular.module('app.controllers', [])
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function($scope, $stateParams, $http, $state) {
     angular.element(document).ready(function() {
-      $scope.Users = [{
-        "BenutzerId": "1001",
-        "BenVorname": "fsdfsf",
-        "BenNachname": "sfsfdsf",
-        "BenTelefonnummer": "sdfsdfs",
-        "BenLongitude": null,
-        "BenLatitude": null,
-        "BenGeoTime": null
-      }, {
-        "BenutzerId": "1002",
-        "BenVorname": "Mohamed",
-        "BenNachname": "Ali",
-        "BenTelefonnummer": "ME NO PHONE ME POOR",
-        "BenLongitude": "29.691545",
-        "BenLatitude": "-9.738001",
-        "BenGeoTime": "2016-10-06 14:59:46"
-      }, {
-        "BenutzerId": "1003",
-        "BenVorname": "dsfsf",
-        "BenNachname": "sdfsfsf",
-        "BenTelefonnummer": "sdfs",
-        "BenLongitude": "-9.738043",
-        "BenLatitude": "29.692345",
-        "BenGeoTime": "2016-10-27 15:00:00"
-      }];
+      // $scope.Users = [{ //test daten wenn kein server verfügbar
+      //   "BenutzerId": "1001",
+      //   "BenVorname": "fsdfsf",
+      //   "BenNachname": "sfsfdsf",
+      //   "BenTelefonnummer": "sdfsdfs",
+      //   "BenLongitude": null,
+      //   "BenLatitude": null,
+      //   "BenGeoTime": null
+      // }, {
+      //   "BenutzerId": "1002",
+      //   "BenVorname": "Mohamed",
+      //   "BenNachname": "Ali",
+      //   "BenTelefonnummer": "ME NO PHONE ME POOR",
+      //   "BenLongitude": "29.691545",
+      //   "BenLatitude": "-9.738001",
+      //   "BenGeoTime": "2016-10-06 14:59:46"
+      // }, {
+      //   "BenutzerId": "1003",
+      //   "BenVorname": "dsfsf",
+      //   "BenNachname": "sdfsfsf",
+      //   "BenTelefonnummer": "sdfs",
+      //   "BenLongitude": "-9.738043",
+      //   "BenLatitude": "29.692345",
+      //   "BenGeoTime": "2016-10-27 15:00:00"
+      // }];
 
       var formData = {
         'action': 'DatenAuslesen',
-        //toodo Benutzer  Id
+        //todo Benutzer  Id
       }
       var postData = 'myData=' + JSON.stringify(formData);
       console.log(postData);
       $http({
         method: 'POST',
-        url: 'http://localhost/FrienderServer/api.php',
+        url: api,
         data: postData,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
 
       }).success(function(res) {
-//$scope.Users = res;
+        $scope.Users = res;
       });
 
     });

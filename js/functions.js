@@ -1,12 +1,17 @@
+var globuser=""; //globale variable für das weitergeben von Menu zu kontakt
+var curUserid="";
+var curBenutzername="";
+var curPasswort="";
+
+
 function empty(variabel) //func die Überprüft ob das angebene feld Leer oder undefined ist
 {
 
 return (typeof  variabel ===  'undefined' ||variabel === '' )
 }
 
-var globuser=""; //globale variable für das weitergeben von Menu zu kontakt
 
-document.addEventListener('deviceready', onDeviceReady, false); //cp von https://www.npmjs.com/package/cordova-plugin-mauron85-background-geolocation
+document.addEventListener('deviceready', onDeviceReady, false); //cp von https://www.npmjs.com/package/cordova-plugin-mauron85-background-geolocation //background updaten von gps cordianten
 
 function onDeviceReady () {
 
@@ -17,6 +22,28 @@ function onDeviceReady () {
         console.log('[js] BackgroundGeolocation callback:  ' + location.latitude + ',' + location.longitude);
 
          //todo ajax call
+
+           var formData = {
+             'action': 'SaveGeoData',
+             'Benutzername': curBenutzername,
+             'BenPasswort':  curPasswort,
+             'BenLongitude': location.longitude,
+             'BenLatitude': location.latitude,
+
+           }
+           var postData = 'myData=' + JSON.stringify(formData);
+           $http({
+             method: 'POST',
+             url: api,
+             data: postData,
+             headers: {
+               'Content-Type': 'application/x-www-form-urlencoded'
+             }
+
+         });
+
+
+      
         backgroundGeolocation.finish();
     };
 
