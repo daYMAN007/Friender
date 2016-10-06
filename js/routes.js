@@ -10,7 +10,7 @@ angular.module('app.routes', [])
 
 
     .state('menu.einstellungen', {
-    url: '/page1',
+    url: '/page11',
     views: {
       'side-menu21': {
         templateUrl: 'templates/einstellungen.html',
@@ -21,7 +21,7 @@ angular.module('app.routes', [])
 
 
   .state('menu.ich', {
-      url: '/page1',
+      url: '/page10',
       views: {
         'side-menu21': {
           templateUrl: 'templates/ich.html',
@@ -30,7 +30,7 @@ angular.module('app.routes', [])
       }
     })
     .state('menu.kontakt', {
-      url: '/page1',
+      url: '/page12',
       views: {
         'side-menu21': {
           templateUrl: 'templates/kontakt.html',
@@ -45,13 +45,13 @@ angular.module('app.routes', [])
     })
 
   .state('login', {
-    url: '/page2',
+    url: '/page1',
     templateUrl: 'templates/login.html',
     controller: 'loginCtrl'
   })
 
   .state('registrieren', {
-    url: '/page3',
+    url: '/page2',
     templateUrl: 'templates/registrieren.html',
     controller: 'registrierenCtrl'
   })
@@ -71,7 +71,7 @@ angular.module('app.routes', [])
 
 
 
-  $urlRouterProvider.otherwise('/page2')
+  $urlRouterProvider.otherwise('/page1')
 
 
 

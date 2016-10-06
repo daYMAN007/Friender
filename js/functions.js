@@ -3,3 +3,5 @@ function empty(variabel) //func die Überprüft ob das angebene feld Leer oder u
 
 return (typeof  variabel ===  'undefined' ||variabel === '' )
 }
+
+var globuser="";
