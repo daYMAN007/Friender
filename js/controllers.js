@@ -1,109 +1,112 @@
 angular.module('app.controllers', [])
 
-.controller('konktaktCtrl', ['$scope', '$stateParams','$cordovaGeolocation','$ionicSideMenuDelegate', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('konktaktCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$ionicSideMenuDelegate', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $cordovaGeolocation,$ionicSideMenuDelegate) {
-
-  var options = {timeout: 10000, enableHighAccuracy: true};
-  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-//47.567109, 9.362960
-  $scope.user=globuser;
-
-
-
-
-  var latLngOwn = new google.maps.LatLng(position.coords.latitude, position.coords.longitude); //todo: reaktivieren von Cordinaten
-
-    var latLngKontakt = new google.maps.LatLng(globuser.BenLongitude, globuser.BenLatitude);
-
-    var mapOptions = {
-      center: latLngKontakt,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+  function($scope, $stateParams, $cordovaGeolocation, $ionicSideMenuDelegate) {
+    var options = {
+      timeout: 10000,
+      enableHighAccuracy: true
     };
+    $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
+      //47.567109, 9.362960
+      $scope.user = globuser;
 
-    $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
 
-    google.maps.event.addListenerOnce($scope.map, 'idle', function(){
 
-  var marker = new google.maps.Marker({
-      map: $scope.map,
-      animation: google.maps.Animation.DROP,
-      position: latLngOwn,
-      icon: 'img/rsz_blackMarker.png',
-  });
-  var marker2 = new google.maps.Marker({ // anderi farb   icon: 'brown_markerA.png'
-      map: $scope.map,
-      animation: google.maps.Animation.DROP,
-      position: latLngKontakt,
-  });
+      var latLngOwn = new google.maps.LatLng(position.coords.latitude, position.coords.longitude); //todo: reaktivieren von Cordinaten
 
-  var infoWindowKontakt = new google.maps.InfoWindow({
-      content:  $scope.user.BenVorname + " " + $scope.user.BenNachname
-  });
-  var infoWindowMeinePos = new google.maps.InfoWindow({
-      content:  "Meine Position!"
-  });
+      var latLngKontakt = new google.maps.LatLng(globuser.BenLongitude, globuser.BenLatitude);
 
-  google.maps.event.addListener(marker, 'click', function () {
-      infoWindowKontakt.open($scope.map, marker);
-  });
-  google.maps.event.addListener(marker2, 'click', function () {
-      infoWindowMeinePos.open($scope.map, marker2);
-  });
-});
-   }, function(error){
-     console.log(error);
-   });
+      var mapOptions = {
+        center: latLngKontakt,
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+
+      $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+      google.maps.event.addListenerOnce($scope.map, 'idle', function() {
+        var marker = new google.maps.Marker({
+          map: $scope.map,
+          animation: google.maps.Animation.DROP,
+          position: latLngOwn,
+          icon: 'img/rsz_blackMarker.png',
+        });
+        var marker2 = new google.maps.Marker({ // anderi farb   icon: 'brown_markerA.png'
+          map: $scope.map,
+          animation: google.maps.Animation.DROP,
+          position: latLngKontakt,
+        });
+
+        var infoWindowKontakt = new google.maps.InfoWindow({
+          content: $scope.user.BenVorname + " " + $scope.user.BenNachname
+        });
+        var infoWindowMeinePos = new google.maps.InfoWindow({
+          content: "Meine Position!"
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infoWindowKontakt.open($scope.map, marker);
+        });
+        google.maps.event.addListener(marker2, 'click', function() {
+          infoWindowMeinePos.open($scope.map, marker2);
+        });
+      });
+    }, function(error) {
+      console.log(error);
+    });
   }
 
 
 ])
 
-.controller('ichCtrl', ['$scope', '$stateParams','$cordovaGeolocation','$ionicSideMenuDelegate',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('ichCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$ionicSideMenuDelegate', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $cordovaGeolocation,$ionicSideMenuDelegate) {
-  var options = {timeout: 10000, enableHighAccuracy: true};
-  $ionicSideMenuDelegate.canDragContent(false)
- $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-//47.567109, 9.362960
-
-
-
-
-  var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-  //  var latLng = new google.maps.LatLng(47.567109,9.362960);
-
-    var mapOptions = {
-      center: latLng,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+  function($scope, $stateParams, $cordovaGeolocation, $ionicSideMenuDelegate) {
+    var options = {
+      timeout: 10000,
+      enableHighAccuracy: true
     };
+    $ionicSideMenuDelegate.canDragContent(false)
+    $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
+      //47.567109, 9.362960
 
-    $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    google.maps.event.addListenerOnce($scope.map, 'idle', function(){
 
-  var marker = new google.maps.Marker({ // anderi farb   icon: 'brown_markerA.png'
-      map: $scope.map,
-      animation: google.maps.Animation.DROP,
-      position: latLng
-  });
 
-  var infoWindow = new google.maps.InfoWindow({
-      content: "Meine position!"
-  });
 
-  google.maps.event.addListener(marker, 'click', function () {
-      infoWindow.open($scope.map, marker);
-  });
+      var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      //  var latLng = new google.maps.LatLng(47.567109,9.362960);
 
-});
-   }, function(error){
-     console.log("Could not get location");
-   });
+      var mapOptions = {
+        center: latLng,
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      };
+
+      $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+      google.maps.event.addListenerOnce($scope.map, 'idle', function() {
+
+        var marker = new google.maps.Marker({ // anderi farb   icon: 'brown_markerA.png'
+          map: $scope.map,
+          animation: google.maps.Animation.DROP,
+          position: latLng
+        });
+
+        var infoWindow = new google.maps.InfoWindow({
+          content: "Meine position!"
+        });
+
+        google.maps.event.addListener(marker, 'click', function() {
+          infoWindow.open($scope.map, marker);
+        });
+
+      });
+    }, function(error) {
+      console.log("Could not get location");
+    });
   }
 ])
 
@@ -259,12 +262,36 @@ angular.module('app.controllers', [])
   }
 ])
 
-.controller('menuCtrl', ['$scope', '$stateParams', '$http', '$state',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('menuCtrl', ['$scope', '$stateParams', '$http', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function($scope, $stateParams, $http, $state) {
-    angular.element(document).ready(function () {
-      $scope.Users=[{"BenutzerId":"1001","BenVorname":"fsdfsf","BenNachname":"sfsfdsf","BenTelefonnummer":"sdfsdfs","BenLongitude":null,"BenLatitude":null,"BenGeoTime":null},{"BenutzerId":"1002","BenVorname":"Mohamed","BenNachname":"Ali","BenTelefonnummer":"ME NO PHONE ME POOR","BenLongitude":"-9.738001","BenLatitude":"29.691545","BenGeoTime":"2016-10-06 14:59:46"},{"BenutzerId":"1003","BenVorname":"dsfsf","BenNachname":"sdfsfsf","BenTelefonnummer":"sdfs","BenLongitude":"-9.738043","BenLatitude":"29.692345","BenGeoTime":"2016-10-27 15:00:00"}];
+    angular.element(document).ready(function() {
+      $scope.Users = [{
+        "BenutzerId": "1001",
+        "BenVorname": "fsdfsf",
+        "BenNachname": "sfsfdsf",
+        "BenTelefonnummer": "sdfsdfs",
+        "BenLongitude": null,
+        "BenLatitude": null,
+        "BenGeoTime": null
+      }, {
+        "BenutzerId": "1002",
+        "BenVorname": "Mohamed",
+        "BenNachname": "Ali",
+        "BenTelefonnummer": "ME NO PHONE ME POOR",
+        "BenLongitude": "29.691545",
+        "BenLatitude": "-9.738001",
+        "BenGeoTime": "2016-10-06 14:59:46"
+      }, {
+        "BenutzerId": "1003",
+        "BenVorname": "dsfsf",
+        "BenNachname": "sdfsfsf",
+        "BenTelefonnummer": "sdfs",
+        "BenLongitude": "-9.738043",
+        "BenLatitude": "29.692345",
+        "BenGeoTime": "2016-10-27 15:00:00"
+      }];
 
       var formData = {
         'action': 'DatenAuslesen',
@@ -281,21 +308,24 @@ angular.module('app.controllers', [])
         }
 
       }).success(function(res) {
-
+//$scope.Users = res;
       });
 
     });
+
     $scope.Kontakt = function(user) {
-      globuser=user;
+      globuser = user;
       $state.go('menu.kontakt');
     }
 
-    $scope.FensterSchliessen = function(){
+    $scope.FensterSchliessen = function() {
       ionic.Platform.exitApp(); //todo needs testing
     }
-    $scope.ZuDenEinstellungen = function()
-    {
+    $scope.ZuDenEinstellungen = function() {
       $state.go('menu.einstellungen');
+    }
+    $scope.ZurueckZuIch = function() {
+      $state.go('menu.ich');
     }
 
   }

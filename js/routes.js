@@ -67,6 +67,11 @@ angular.module('app.routes', [])
     templateUrl: 'templates/einstellungen.html',
     controller: 'einstellungenCtrl'
   })
+  .state('kontakt', {
+    url: '/page1',
+    templateUrl: 'templates/kontakt.html',
+    controller: 'konktaktCtrl'
+    })
 
 
 
