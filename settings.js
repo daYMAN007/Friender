@@ -1,1 +1,1 @@
-var api="http://localhost/FrienderServer/api.php";
+var api="http://192.168.178.68/FrienderServer/api.php";

@@ -17,7 +17,7 @@ angular.module('app.controllers', [])
 
       var latLngOwn = new google.maps.LatLng(position.coords.latitude, position.coords.longitude); //todo: reaktivieren von Cordinaten
 
-      var latLngKontakt = new google.maps.LatLng(globuser.BenLongitude, globuser.BenLatitude);
+      var latLngKontakt = new google.maps.LatLng(globuser.BenLatitude, globuser.BenLongitude);
 
       var mapOptions = {
         center: latLngKontakt,
@@ -32,7 +32,7 @@ angular.module('app.controllers', [])
           map: $scope.map,
           animation: google.maps.Animation.DROP,
           position: latLngOwn,
-          icon: 'img/rsz_blackMarker.png',
+          icon: 'img/rsz_blackmarker.png',
         });
         var markerKontakt = new google.maps.Marker({ // anderi farb   icon: 'brown_markerA.png'
           map: $scope.map,
@@ -62,23 +62,39 @@ angular.module('app.controllers', [])
 
 ])
 
-.controller('ichCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$ionicSideMenuDelegate', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('ichCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$ionicSideMenuDelegate', '$http',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $cordovaGeolocation, $ionicSideMenuDelegate) {
-    // Turn ON the background-geolocation system.  The user will be tracked whenever they suspend the app.
-    backgroundGeolocation.start();
-    
+  function($scope, $stateParams, $cordovaGeolocation, $ionicSideMenuDelegate,$http) {
+
+
+
     var options = {
       timeout: 10000,
       enableHighAccuracy: true
     };
-    $ionicSideMenuDelegate.canDragContent(false)
+    $ionicSideMenuDelegate.canDragContent(false) //fix dafür das die Map nicht mehr in der seite rausrutscht
     $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
       //47.567109, 9.362960
 
+      var formData = {
+        'action': 'SaveGeoData',
+        'Benutzername': curBenutzername,
+        'BenPasswort':  curPasswort,
+        'BenLongitude': position.coords.longitude,
+        'BenLatitude': position.coords.latitude,
 
+      }
+      var postData = 'myData=' + JSON.stringify(formData);
+      $http({
+        method: 'POST',
+        url: api,
+        data: postData,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
 
+    });
 
       var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
       //  var latLng = new google.maps.LatLng(47.567109,9.362960);
