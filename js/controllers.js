@@ -25,16 +25,16 @@ angular.module('app.controllers', [])
         mapTypeId: google.maps.MapTypeId.ROADMAP
       };
 
-      $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+      $scope.map = new google.maps.Map(document.getElementById("map2"), mapOptions);
 
       google.maps.event.addListenerOnce($scope.map, 'idle', function() {
-        var marker = new google.maps.Marker({
+        var markerOwn = new google.maps.Marker({
           map: $scope.map,
           animation: google.maps.Animation.DROP,
           position: latLngOwn,
           icon: 'img/rsz_blackMarker.png',
         });
-        var marker2 = new google.maps.Marker({ // anderi farb   icon: 'brown_markerA.png'
+        var markerKontakt = new google.maps.Marker({ // anderi farb   icon: 'brown_markerA.png'
           map: $scope.map,
           animation: google.maps.Animation.DROP,
           position: latLngKontakt,
@@ -47,11 +47,11 @@ angular.module('app.controllers', [])
           content: "Meine Position!"
         });
 
-        google.maps.event.addListener(marker, 'click', function() {
-          infoWindowKontakt.open($scope.map, marker);
+        google.maps.event.addListener(markerOwn, 'click', function() {
+          infoWindowMeinePos.open($scope.map, markerOwn);
         });
-        google.maps.event.addListener(marker2, 'click', function() {
-          infoWindowMeinePos.open($scope.map, marker2);
+        google.maps.event.addListener(markerKontakt, 'click', function() {
+          infoWindowKontakt.open($scope.map, markerKontakt);
         });
       });
     }, function(error) {
