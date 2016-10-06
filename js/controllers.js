@@ -3,10 +3,54 @@ angular.module('app.controllers', [])
 .controller('konktaktCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams) {
+  function($scope, $stateParams, $cordovaGeolocation,$ionicSideMenuDelegate) {
+  var options = {timeout: 10000, enableHighAccuracy: true};
+    $ionicSideMenuDelegate.canDragContent(false)
+  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+//47.567109, 9.362960
+  var latLngOwn = new google.maps.LatLng(position.coords.latitude, position.coords.longitude); //todo: reaktivieren von Cordinaten
+        $latLong=getCords() //ajax request für kordianten von server
+    var latLngKontakt = new google.maps.LatLng(47.554873, 8.902931);
 
+    var mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
 
+    $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    google.maps.event.addListenerOnce($scope.map, 'idle', function(){
+
+  var marker = new google.maps.Marker({ // anderi farb   icon: 'brown_markerA.png'
+      map: $scope.map,
+      animation: google.maps.Animation.DROP,
+      position: latLng,
+      icon: 'img/rsz_blackMarker.png',
+  });
+  var marker2 = new google.maps.Marker({ // anderi farb   icon: 'brown_markerA.png'
+      map: $scope.map,
+      animation: google.maps.Animation.DROP,
+      position: latLng2,
+
+  });
+
+  var infoWindow = new google.maps.InfoWindow({
+      content: "Meine position!"
+  });
+
+  google.maps.event.addListener(marker, 'click', function () {
+      infoWindow.open($scope.map, marker);
+  });
+  google.maps.event.addListener(marker2, 'click', function () {
+      infoWindow.open($scope.map, marker2);
+  });
+});
+   }, function(error){
+     console.log(error);
+   });
   }
+
+
 ])
 
 .controller('ichCtrl', ['$scope', '$stateParams','$cordovaGeolocation', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -53,73 +97,52 @@ angular.module('app.controllers', [])
 .controller('loginCtrl', ['$scope', '$stateParams', '$http', '$location', '$ionicPopup', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $http, $location, $ionicPopup, $state) {
-    $scope.Login = function() {
-      $state.go('menu.ich');
+  function($scope, $stateParams, $cordovaGeolocation,$ionicSideMenuDelegate) {
+  var options = {timeout: 10000, enableHighAccuracy: true};
+    $ionicSideMenuDelegate.canDragContent(false)
+  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+//47.567109, 9.362960
+  var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude); //todo: reaktivieren von Cordinaten
+    var latLng2 = new google.maps.LatLng(47.554873, 8.902931);
 
-      if (!empty($scope.Benutzername) && !empty($scope.Passwort)) { //überprüfe ob alle Felder ausgefühlt sind
+    var mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
 
-        var formData = {
-          'action': 'Login',
-          'Benutzername': $scope.Benutzername,
-          'BenPasswort': $scope.Passwort
-        }
-        var postData = 'myData=' + JSON.stringify(formData);
-        console.log(postData);
-        $http({
-          method: 'POST',
-          url: 'http://localhost/FrienderServer/api.php',
-          data: postData,
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
+    $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+    google.maps.event.addListenerOnce($scope.map, 'idle', function(){
 
-        }).success(function(res) {
-          console.log(res);
-          //error messages : 0 user existiert nicht
-          //                 1 Login erfolgreich
-          //                 2 Passwort falsch
-          switch (res) {
-            case "0": //user existiert nicht
-              var alertPopup = $ionicPopup.alert({
-                title: 'Fehler',
-                template: 'Dieser Nutzername existiert nicht!'
-              });
+  var marker = new google.maps.Marker({ // anderi farb   icon: 'brown_markerA.png'
+      map: $scope.map,
+      animation: google.maps.Animation.DROP,
+      position: latLng,
+      icon: 'img/rsz_blackMarker.png',
+  });
+  var marker2 = new google.maps.Marker({ // anderi farb   icon: 'brown_markerA.png'
+      map: $scope.map,
+      animation: google.maps.Animation.DROP,
+      position: latLng2,
 
+  });
 
-              break;
-            case "1": // Login erfolgreich
-              //weiterleitung zur ich page
-              //      $state.go('menu.ich');
+  var infoWindow = new google.maps.InfoWindow({
+      content: "Meine position!"
+  });
 
-              break;
-            case "2": // Passwort falsch
-              var alertPopup = $ionicPopup.alert({
-                title: 'Fehler',
-                template: 'Das eingegeben Passwort ist Falsch!'
-              });
-              break;
-            default: //server error
-              var alertPopup = $ionicPopup.alert({
-                title: 'Fehler',
-                template: 'Der Server ist nicht erreichbar!'
-              });
-          }
-        }).error(function(error) { //server error oder keine internet verbindung
-          var alertPopup = $ionicPopup.alert({
-            title: 'Fehler',
-            template: 'Der Server ist nicht erreichbar!'
-          });
-        });
-      } else { //password und nutzername müssen ausgefühlt werden
-        var alertPopup = $ionicPopup.alert({
-          title: 'Fehler',
-          template: 'Alle Felder müssen ausgefüllt sein!'
-        });
-
-      }
-    }
+  google.maps.event.addListener(marker, 'click', function () {
+      infoWindow.open($scope.map, marker);
+  });
+  google.maps.event.addListener(marker2, 'click', function () {
+      infoWindow.open($scope.map, marker2);
+  });
+});
+   }, function(error){
+     console.log(error);
+   });
   }
+
 ])
 
 .controller('registrierenCtrl', ['$scope', '$stateParams', '$http', '$location', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
