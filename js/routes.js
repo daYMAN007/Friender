@@ -9,30 +9,40 @@ angular.module('app.routes', [])
   $stateProvider
 
 
-
-      .state('menu.ich', {
+    .state('menu.einstellungen', {
     url: '/page1',
     views: {
       'side-menu21': {
-        templateUrl: 'templates/ich.html',
-        controller: 'ichCtrl'
+        templateUrl: 'templates/einstellungen.html',
+        controller: 'einstellungenCtrl'
       }
     }
   })
-  .state('menu.kontakt', {
-url: '/page1',
-views: {
-  'side-menu21': {
-    templateUrl: 'templates/kontakt.html',
-    controller: 'konktaktCtrl'
-  }
-}
-})
-  .state('ich', {
-    url: '/page5',
-    templateUrl: 'templates/ich.html',
-    controller: 'ichCtrl'
-  })
+
+
+  .state('menu.ich', {
+      url: '/page1',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/ich.html',
+          controller: 'ichCtrl'
+        }
+      }
+    })
+    .state('menu.kontakt', {
+      url: '/page1',
+      views: {
+        'side-menu21': {
+          templateUrl: 'templates/kontakt.html',
+          controller: 'konktaktCtrl'
+        }
+      }
+    })
+    .state('ich', {
+      url: '/page5',
+      templateUrl: 'templates/ich.html',
+      controller: 'ichCtrl'
+    })
 
   .state('login', {
     url: '/page2',
@@ -58,7 +68,10 @@ views: {
     controller: 'einstellungenCtrl'
   })
 
-$urlRouterProvider.otherwise('/page2')
+
+
+
+  $urlRouterProvider.otherwise('/page2')
 
 
 

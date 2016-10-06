@@ -3,9 +3,9 @@ angular.module('app.controllers', [])
 .controller('konktaktCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $cordovaGeolocation,$ionicSideMenuDelegate) {
+  function($scope, $stateParams, $cordovaGeolocation) {
   var options = {timeout: 10000, enableHighAccuracy: true};
-    $ionicSideMenuDelegate.canDragContent(false)
+    //$ionicSideMenuDelegate.canDragContent(false)
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
 //47.567109, 9.362960
   var latLngOwn = new google.maps.LatLng(position.coords.latitude, position.coords.longitude); //todo: reaktivieren von Cordinaten
@@ -97,9 +97,9 @@ angular.module('app.controllers', [])
 .controller('loginCtrl', ['$scope', '$stateParams', '$http', '$location', '$ionicPopup', '$state', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $cordovaGeolocation,$ionicSideMenuDelegate) {
+  function($scope, $stateParams, $cordovaGeolocation) {
   var options = {timeout: 10000, enableHighAccuracy: true};
-    $ionicSideMenuDelegate.canDragContent(false)
+    //$ionicSideMenuDelegate.canDragContent(false)
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
 //47.567109, 9.362960
   var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude); //todo: reaktivieren von Cordinaten
@@ -252,8 +252,13 @@ angular.module('app.controllers', [])
       console.log(user);
       $state.go('menu.kontakt');
     }
+
     $scope.FensterSchliessen = function(){
       ionic.Platform.exitApp(); //todo needs testing
+    }
+    $scope.ZuDenEinstellungen = function()
+    {
+      $state.go('menu.einstellungen');
     }
 
   }
@@ -265,6 +270,7 @@ angular.module('app.controllers', [])
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function($scope, $stateParams) {
+
 
 
   }
