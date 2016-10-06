@@ -201,15 +201,33 @@ angular.module('app.controllers', [])
   }
 ])
 
-.controller('menuCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('menuCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams) {
-    $scope.KontakteAuslesen = function() {
+  function($scope, $stateParams,$http) {
+    angular.element(document).ready(function () {
 
-    }
+      var formData = {
+        'action': 'DatenAuslesen',
+        //toodo Benutzer  Id
+      }
+      var postData = 'myData=' + JSON.stringify(formData);
+      console.log(postData);
+      $http({
+        method: 'POST',
+        url: 'http://localhost/FrienderServer/api.php',
+        data: postData,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
 
+      }).success(function(res) {
+        $scope.Users;
+      });
+    });
   }
+
+
 ])
 
 .controller('einstellungenCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
