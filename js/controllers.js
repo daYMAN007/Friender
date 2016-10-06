@@ -229,6 +229,10 @@ angular.module('app.controllers', [])
       console.log(user);
       $state.go('menu.kontakt');
     }
+    $scope.FensterSchliessen = function(){
+      ionic.Platform.exitApp(); //todo needs testing
+    }
+
   }
 
 
