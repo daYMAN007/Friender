@@ -378,26 +378,22 @@ angular.module('app.controllers', [])
 
     }).success(function(res) {
       var User = res[0];
-      $scope.Benutzername= User.BenNickname;
-      $scope.Vorname= User.BenVorname;
-      $scope.Nachname= User.BenNachname;
-      $scope.Telefonnummer = User.BenTelefonnummer;
-      $scope.PasswortWiederholung = curPasswort;
-      $scope.Passwort = curPasswort;
+      $scope.user=res[0];
+      $scope.user.Passwort = curPasswort;
     });
-
+    console.log
 
   });
-    $scope.DatenAendern = function()
+    $scope.DatenAendern = function(user)
     {
       var formData = {
         'action': 'Updaten',
         'BenutzerId' : curUserid,
-        'Benutzername': $scope.Benutzername,
-        'BenPasswort': $scope.Passwort,
-        'BenTelefonnummer': $scope.Telefonnummer,
-        'BenVorname': $scope.Vorname,
-        'BenNachname': $scope.Nachname,
+        'Benutzername': user.BenNickname,
+        'BenPasswort': user.BenVorname,
+        'BenTelefonnummer': user.BenTelefonnummer,
+        'BenVorname': user.BenVorname,
+        'BenNachname': user.BenNachname,
       }
       var postData = 'myData=' + JSON.stringify(formData);
       console.log(postData);
