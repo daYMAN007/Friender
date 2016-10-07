@@ -14,9 +14,9 @@
     </ion-header-bar>
     <ion-content padding="false" class="side-menu-left has-header ">
       <ion-list id="menu-list1">
-       <a ng-click="ZurueckZuIch()"><ion-item class="item-icon-right" id="menu-list-item12" ui-sref="menu.konktakt" menu-close="">Username
+  <ion-item class="item-icon-right" id="menu-list-item12"  menu-close=""><a  menu-close=""   >Username</a>
         <a ng-click="ZuDenEinstellungen()"><i class="icon ion-android-settings"></i></a>
-        </ion-item></a>
+        </ion-item>
         <a ng-click="FensterSchliessen()"> <ion-item id="menu-list-item1" ui-sref="menu.konktakt" menu-close="">Logout</ion-item></a>
         <ion-item class="item-divider" id="menu-list-item-divider1">Kontakte</ion-item>
         <label class="item item-input">
@@ -24,8 +24,8 @@
                     <input type="search" placeholder="" data-ng-model="filterText">
                 </label>
         <div class="container" data-ng-init="Users">
-          <a ng-click="Kontakt(user)" data-ng-repeat="user in Users | filter:filterText | orderBy: 'user.BenNachname'"> <ion-item class="item-icon-right" >{{ user.BenVorname + " " + user.BenNachname}}
-            <i class="icon ion-android-done"></i>
+          <a ng-click="Kontakt(user)"  menu-close="" data-ng-repeat="user in Users | filter:filterText | orderBy: 'user.BenNachname'"> <ion-item class="item-icon-right" >{{ user.BenVorname + " " + user.BenNachname}}
+            <i ng-if="user.isOnline" class="icon ion-android-done"></i>
           </ion-item> </a>
         </div>
         </ion-item>

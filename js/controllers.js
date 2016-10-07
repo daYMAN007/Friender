@@ -11,7 +11,7 @@ angular.module('app.controllers', [])
     $cordovaGeolocation.getCurrentPosition(options).then(function(position) {
       //47.567109, 9.362960
       $scope.user = globuser;
-
+      console.log($scope.user);
 
 
 
@@ -62,11 +62,15 @@ angular.module('app.controllers', [])
 
 ])
 
-.controller('ichCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$ionicSideMenuDelegate', '$http',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('ichCtrl', ['$scope', '$stateParams', '$cordovaGeolocation', '$ionicSideMenuDelegate', '$http', '$location',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams, $cordovaGeolocation, $ionicSideMenuDelegate,$http) {
+  function($scope, $stateParams, $cordovaGeolocation, $ionicSideMenuDelegate,$http,$location) {
 
+    angular.element(document).ready(function() {
+  //view loaded do some stuff.
+    $location.replace(); //clear last history route (hotfix um zu verhindern das man zur login page zurück kommt)
+});
 
 
     var options = {
@@ -124,7 +128,11 @@ angular.module('app.controllers', [])
 
       });
     }, function(error) {
-      console.log("Could not get location");
+      var alertPopup = $ionicPopup.alert({
+        title: 'Fehler',
+        template: 'Deine GPS-Position wurde nicht gefunden, die App wird jetzt geschlossen!'
+      });
+      ionic.Platform.exitApp();
     });
   }
 ])
@@ -304,34 +312,10 @@ angular.module('app.controllers', [])
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function($scope, $stateParams, $http, $state) {
     angular.element(document).ready(function() {
-      // $scope.Users = [{ //test daten wenn kein server verfügbar
-      //   "BenutzerId": "1001",
-      //   "BenVorname": "fsdfsf",
-      //   "BenNachname": "sfsfdsf",
-      //   "BenTelefonnummer": "sdfsdfs",
-      //   "BenLongitude": null,
-      //   "BenLatitude": null,
-      //   "BenGeoTime": null
-      // }, {
-      //   "BenutzerId": "1002",
-      //   "BenVorname": "Mohamed",
-      //   "BenNachname": "Ali",
-      //   "BenTelefonnummer": "ME NO PHONE ME POOR",
-      //   "BenLongitude": "29.691545",
-      //   "BenLatitude": "-9.738001",
-      //   "BenGeoTime": "2016-10-06 14:59:46"
-      // }, {
-      //   "BenutzerId": "1003",
-      //   "BenVorname": "dsfsf",
-      //   "BenNachname": "sdfsfsf",
-      //   "BenTelefonnummer": "sdfs",
-      //   "BenLongitude": "-9.738043",
-      //   "BenLatitude": "29.692345",
-      //   "BenGeoTime": "2016-10-27 15:00:00"
-      // }];
+
 
       var formData = {
-        'action': 'DatenAuslesen',
+        'action': 'DataList',
         'BenutzerId': curUserid,
       }
       var postData = 'myData=' + JSON.stringify(formData);
@@ -345,7 +329,9 @@ angular.module('app.controllers', [])
         }
 
       }).success(function(res) {
+        console.log(res);
         $scope.Users = res;
+
       });
 
     });
@@ -370,27 +356,34 @@ angular.module('app.controllers', [])
 
 ])
 
-.controller('einstellungenCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('einstellungenCtrl', ['$scope', '$stateParams','$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
-  function($scope, $stateParams) {
+  function($scope, $stateParams,$http) {
   angular.element(document).ready(function() {
     var formData = {
-      'action': 'DatenAuslesen2',
+      'action': 'UpdateEinstellungen',
       'BenutzerId': curUserid,
+      'Benutzername': curBenutzername
     }
     var postData = 'myData=' + JSON.stringify(formData);
     console.log(postData);
     $http({
       method: 'POST',
-      url: 'http://localhost/FrienderServer/api.php',
+      url: api,
       data: postData,
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded'
       }
 
     }).success(function(res) {
-      $scope.User = res;
+      var User = res[0];
+      $scope.Benutzername= User.BenNickname;
+      $scope.Vorname= User.BenVorname;
+      $scope.Nachname= User.BenNachname;
+      $scope.Telefonnummer = User.BenTelefonnummer;
+      $scope.PasswortWiederholung = curPasswort;
+      $scope.Passwort = curPasswort;
     });
 
 
@@ -399,6 +392,7 @@ angular.module('app.controllers', [])
     {
       var formData = {
         'action': 'Updaten',
+        'BenutzerId' : curUserid,
         'Benutzername': $scope.Benutzername,
         'BenPasswort': $scope.Passwort,
         'BenTelefonnummer': $scope.Telefonnummer,
@@ -409,7 +403,7 @@ angular.module('app.controllers', [])
       console.log(postData);
       $http({
         method: 'POST',
-        url: 'http://localhost/FrienderServer/api.php',
+        url: api,
         data: postData,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
@@ -417,6 +411,7 @@ angular.module('app.controllers', [])
 
       }).success(function(res) {
         console.log(res);
+
       });
 
     }
