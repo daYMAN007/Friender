@@ -332,7 +332,7 @@ angular.module('app.controllers', [])
 
       var formData = {
         'action': 'DatenAuslesen',
-        //todo Benutzer  Id
+        'BenutzerId': curUserid,
       }
       var postData = 'myData=' + JSON.stringify(formData);
       console.log(postData);
@@ -356,7 +356,7 @@ angular.module('app.controllers', [])
     }
 
     $scope.FensterSchliessen = function() {
-      ionic.Platform.exitApp(); //todo needs testing
+      ionic.Platform.exitApp();
     }
     $scope.ZuDenEinstellungen = function() {
       $state.go('menu.einstellungen');
@@ -374,8 +374,51 @@ angular.module('app.controllers', [])
   // You can include any angular dependencies as parameters for this function
   // TIP: Access Route Parameters for your page via $stateParams.parameterName
   function($scope, $stateParams) {
+  angular.element(document).ready(function() {
+    var formData = {
+      'action': 'DatenAuslesen2',
+      'BenutzerId': curUserid,
+    }
+    var postData = 'myData=' + JSON.stringify(formData);
+    console.log(postData);
+    $http({
+      method: 'POST',
+      url: 'http://localhost/FrienderServer/api.php',
+      data: postData,
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+
+    }).success(function(res) {
+      $scope.User = res;
+    });
 
 
+  });
+    $scope.DatenAendern = function()
+    {
+      var formData = {
+        'action': 'Updaten',
+        'Benutzername': $scope.Benutzername,
+        'BenPasswort': $scope.Passwort,
+        'BenTelefonnummer': $scope.Telefonnummer,
+        'BenVorname': $scope.Vorname,
+        'BenNachname': $scope.Nachname,
+      }
+      var postData = 'myData=' + JSON.stringify(formData);
+      console.log(postData);
+      $http({
+        method: 'POST',
+        url: 'http://localhost/FrienderServer/api.php',
+        data: postData,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
 
+      }).success(function(res) {
+        console.log(res);
+      });
+
+    }
   }
 ])
